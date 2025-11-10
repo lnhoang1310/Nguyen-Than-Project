@@ -1,0 +1,24 @@
+--cpu Cortex-M3
+"nguyen_than_project\startup_stm32f103xb.o"
+"nguyen_than_project\main.o"
+"nguyen_than_project\stm32f1xx_it.o"
+"nguyen_than_project\stm32f1xx_hal_msp.o"
+"nguyen_than_project\stm32f1xx_hal_gpio_ex.o"
+"nguyen_than_project\stm32f1xx_hal_adc.o"
+"nguyen_than_project\stm32f1xx_hal_adc_ex.o"
+"nguyen_than_project\stm32f1xx_hal.o"
+"nguyen_than_project\stm32f1xx_hal_rcc.o"
+"nguyen_than_project\stm32f1xx_hal_rcc_ex.o"
+"nguyen_than_project\stm32f1xx_hal_gpio.o"
+"nguyen_than_project\stm32f1xx_hal_dma.o"
+"nguyen_than_project\stm32f1xx_hal_cortex.o"
+"nguyen_than_project\stm32f1xx_hal_pwr.o"
+"nguyen_than_project\stm32f1xx_hal_flash.o"
+"nguyen_than_project\stm32f1xx_hal_flash_ex.o"
+"nguyen_than_project\stm32f1xx_hal_exti.o"
+"nguyen_than_project\stm32f1xx_hal_uart.o"
+"nguyen_than_project\system_stm32f1xx.o"
+--strict --scatter "Nguyen_Than_Project\Nguyen_Than_Project.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "Nguyen_Than_Project.map" -o Nguyen_Than_Project\Nguyen_Than_Project.axf
