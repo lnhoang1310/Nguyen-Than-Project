@@ -27,7 +27,7 @@ nguyen_than_project\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_ad
 nguyen_than_project\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 nguyen_than_project\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
 nguyen_than_project\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
-nguyen_than_project\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-nguyen_than_project\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+nguyen_than_project\main.o: ..\LCD_I2C_SOFT\lcd_soft_i2c.h
+nguyen_than_project\main.o: ..\I2C\i2c.h
+nguyen_than_project\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 nguyen_than_project\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-nguyen_than_project\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

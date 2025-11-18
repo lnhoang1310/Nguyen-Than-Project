@@ -16,8 +16,9 @@
 "nguyen_than_project\stm32f1xx_hal_flash.o"
 "nguyen_than_project\stm32f1xx_hal_flash_ex.o"
 "nguyen_than_project\stm32f1xx_hal_exti.o"
-"nguyen_than_project\stm32f1xx_hal_uart.o"
 "nguyen_than_project\system_stm32f1xx.o"
+"nguyen_than_project\i2c.o"
+"nguyen_than_project\lcd_soft_i2c.o"
 --strict --scatter "Nguyen_Than_Project\Nguyen_Than_Project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

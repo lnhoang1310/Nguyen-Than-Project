@@ -21,9 +21,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <stdarg.h>
+#include "lcd_soft_i2c.h"
 #include <stdio.h>
-#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -44,32 +43,22 @@
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
 
-UART_HandleTypeDef huart1;
-
 /* USER CODE BEGIN PV */
-
+I2C_LCD_HandleTypedef lcd;
+Soft_I2C_TypeDef i2c;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_ADC1_Init(void);
-static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-#define BUFFER_MESSAGE_SIZE 256
-char buffer[BUFFER_MESSAGE_SIZE];
-void transmit(const char *format, ...){
-	va_list args;
-	va_start(args, format);
-	vsnprintf(buffer, BUFFER_MESSAGE_SIZE, format, args);
-	va_end(args);
-	HAL_UART_Transmit(&huart1, (uint8_t *)buffer, strlen(buffer), 1000);
-}
+char buff[20];
 /* USER CODE END 0 */
 
 /**
@@ -102,10 +91,14 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_ADC1_Init();
-  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+	i2c_soft_init(&i2c, SCL_GPIO_Port, SCL_Pin, SDA_GPIO_Port, SDA_Pin);
+	lcd_init(&lcd, &i2c, 0x27);
+	lcd_gotoxy(&lcd, 0, 0);
+	lcd_send_string(&lcd, "   Temperature  ");
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
 	HAL_ADC_Start(&hadc1);
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -118,7 +111,9 @@ int main(void)
 		  float temperature = voltage * 100 / 0.6635f;
 		  if(temperature >= 40) HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_1);
 		  else HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-		  transmit("temperature: %.1f\r\n", temperature);
+		  lcd_gotoxy(&lcd, 0, 1);
+		  sprintf(buff, "      %4.1f    ", temperature);
+		  lcd_send_string(&lcd, buff);
 		  HAL_Delay(100);
 	  }
     /* USER CODE END WHILE */
@@ -219,39 +214,6 @@ static void MX_ADC1_Init(void)
 }
 
 /**
-  * @brief USART1 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USART1_UART_Init(void)
-{
-
-  /* USER CODE BEGIN USART1_Init 0 */
-
-  /* USER CODE END USART1_Init 0 */
-
-  /* USER CODE BEGIN USART1_Init 1 */
-
-  /* USER CODE END USART1_Init 1 */
-  huart1.Instance = USART1;
-  huart1.Init.BaudRate = 9600;
-  huart1.Init.WordLength = UART_WORDLENGTH_8B;
-  huart1.Init.StopBits = UART_STOPBITS_1;
-  huart1.Init.Parity = UART_PARITY_NONE;
-  huart1.Init.Mode = UART_MODE_TX_RX;
-  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
-  if (HAL_UART_Init(&huart1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USART1_Init 2 */
-
-  /* USER CODE END USART1_Init 2 */
-
-}
-
-/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -267,13 +229,20 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1|SCL_Pin|SDA_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PA1 */
   GPIO_InitStruct.Pin = GPIO_PIN_1;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : SCL_Pin SDA_Pin */
+  GPIO_InitStruct.Pin = SCL_Pin|SDA_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
