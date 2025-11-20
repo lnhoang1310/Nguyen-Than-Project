@@ -1,6 +1,6 @@
 nguyen_than_project\lcd_soft_i2c.o: ..\LCD_I2C_SOFT\lcd_soft_i2c.c
 nguyen_than_project\lcd_soft_i2c.o: ..\LCD_I2C_SOFT\lcd_soft_i2c.h
-nguyen_than_project\lcd_soft_i2c.o: ..\I2C\i2c.h
+nguyen_than_project\lcd_soft_i2c.o: ../I2C/i2c.h
 nguyen_than_project\lcd_soft_i2c.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
 nguyen_than_project\lcd_soft_i2c.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h
 nguyen_than_project\lcd_soft_i2c.o: ../Drivers/CMSIS/Include/core_cm3.h

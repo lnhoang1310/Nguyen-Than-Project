@@ -105,17 +105,17 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  if(HAL_ADC_PollForConversion(&hadc1, 1000) == HAL_OK){
-		  float adc_value = HAL_ADC_GetValue(&hadc1);
-		  float voltage = (adc_value * 3.3f) / 4095.0f;
-		  float temperature = voltage * 100 / 0.6635f;
-		  if(temperature >= 40) HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_1);
-		  else HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-		  lcd_gotoxy(&lcd, 0, 1);
-		  sprintf(buff, "      %4.1f    ", temperature);
-		  lcd_send_string(&lcd, buff);
-		  HAL_Delay(100);
-	  }
+	  
+	  float adc_value = HAL_ADC_GetValue(&hadc1);
+	  float voltage = (adc_value * 3.3f) / 4095.0f;
+	  float temperature = voltage * 100 - 0.2f;
+	  if(temperature >= 40) HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_1);
+	  else HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+	  lcd_gotoxy(&lcd, 0, 1);
+	  sprintf(buff, "      %4.1f    ", temperature);
+	  lcd_send_string(&lcd, buff);
+	  HAL_Delay(100);
+	  
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
